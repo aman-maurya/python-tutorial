@@ -5,30 +5,67 @@ Decorators are a very powerful and useful tool in Python since it allows program
 of a function or class.But before diving deep into decorators let us understand some concepts that will come in
 handy in learning the decorators.
 
-1. Namespace and Variable Scope
- - We use `names` (such as variable name, class name, function name) in python to identify the object just like
-   we use name to identify person in real life, so `Namespace` is the system which will control all the names which
-   we use in our program, and it will assure the all the names which we use is unique, and it won't lead nay conflict.
-   * Types of namespace
+* First Class Objects
+ In Python, functions are first class objects which means that functions in Python can be used or passed as
+ arguments.
 
-    - Built-in namespace
-      When you start the python interpreter build-in namespace is created which contain all the build-in names.
-      So, when Python interpreter runs solely without any user-defined modules, methods, classes, etc. Some functions
-      like print(), id() are always present, these are built-in namespaces.
+ Properties of first class functions:
 
-    - Global namespace
-      When a user creates a module, a global namespace gets created, later the creation of local functions creates
-      the local namespace
-
-    - Local namespace
-      Creation on local function create local namespace
-2. LEGB Rule
-3. Closures
+ - A function is an instance of the Object type.
+ - You can store the function in a variable.
+ - You can pass the function as a parameter to another function.
+ - You can return the function from a function.
+ - You can store them in data structures such as hash tables, lists, …
 
 """
-#############################
-print("Example of Namespace")
-#############################
 
 
+# Example (You can store the function in a variable)
+def func1():
+    print("I'm function 1")
 
+
+def func2(func):
+    func()
+    print("calling function 2")
+
+
+func2(func1)
+
+
+# Example of decorator
+def str_upper(func):
+    def inner():
+        _str = func()
+        return _str.upper()
+
+    return inner
+
+
+def print_str():
+    return "hello world"
+
+
+decor = str_upper(print_str)  # str_upper(print_str) == @str_upper
+print(decor())
+
+
+# Example of decorator with parameters
+
+def wish_to(name):
+    def outer(func):
+        def inner():
+            _str = f"{func()}, {name}"
+            return _str
+
+        return inner
+
+    return outer
+
+
+@wish_to('Aman Maurya')
+def greeting():
+    return "Good Morning"
+
+
+print(greeting())
