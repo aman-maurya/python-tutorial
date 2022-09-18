@@ -69,3 +69,36 @@ def greeting():
 
 
 print(greeting())
+
+"""
+print(greeting.__name__)
+In this example if we print the name of the function the it will output `inner`, to solve this we use 
+functions tool
+"""
+print(greeting.__name__)
+
+"""
+Example of decorator with functions tools
+"""
+import functools
+
+
+def wish_to_new(name):
+    def outer(func):
+        @functools.wraps(func)
+        def inner():
+            _str = f"{func()}, {name}"
+            return _str
+
+        return inner
+
+    return outer
+
+
+@wish_to_new('Aman Maurya')
+def greeting_new():
+    return "Good Night"
+
+
+print(greeting_new())
+print(greeting_new.__name__)
